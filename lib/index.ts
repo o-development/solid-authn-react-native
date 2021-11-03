@@ -4,7 +4,10 @@
 //   fetch as importFetch,
 //   getDefaultSession as importGetDefaultSession,
 // } from "@inrupt/solid-client-authn-browser";
-import { Session } from "@inrupt/solid-client-authn-browser";
+import {
+  Session,
+  // login as loginImport,
+} from "@inrupt/solid-client-authn-browser";
 import { IHandleIncomingRedirectOptions } from "@inrupt/solid-client-authn-browser/dist/Session";
 import {
   ILoginInputOptions,
@@ -22,9 +25,12 @@ export const handleIncomingRedirect = async (
   console.log("Handle incoming redirect", inputOptions);
   return undefined;
 };
+
 export const login = async (options: ILoginInputOptions): Promise<void> => {
-  console.log("Login", options);
+  console.log("Login");
+  // return loginImport(options);
 };
+
 export const fetch = async (
   url: RequestInfo,
   init?: RequestInit | undefined
@@ -32,6 +38,7 @@ export const fetch = async (
   console.log("fetch", url, init);
   throw new Error("not implemented");
 };
+
 export const getDefaultSession = (): Session => {
   console.log("getDefaultSession");
   return {

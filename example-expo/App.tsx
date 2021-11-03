@@ -20,7 +20,7 @@ const App: FunctionComponent = () => {
   const logIn = useCallback((issuer: string) => {
     login({
       oidcIssuer: issuer,
-      redirectUrl: window.location.href,
+      redirectUrl: "https://something",
       clientName: "My application",
     });
   }, []);
