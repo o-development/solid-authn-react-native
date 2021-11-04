@@ -20,7 +20,7 @@ const App: FunctionComponent = () => {
   const logIn = useCallback((issuer: string) => {
     login({
       oidcIssuer: issuer,
-      redirectUrl: "https://something",
+      redirectUrl: "https://192.168.0.105:19006",
       clientName: "My application",
     });
   }, []);

@@ -1,50 +1,40 @@
-// import {
-//   handleIncomingRedirect as importHandleIncomingRedirect,
-//   login as importLogin,
-//   fetch as importFetch,
-//   getDefaultSession as importGetDefaultSession,
-// } from "@inrupt/solid-client-authn-browser";
-import {
-  Session,
-  // login as loginImport,
-} from "@inrupt/solid-client-authn-browser";
-import { IHandleIncomingRedirectOptions } from "@inrupt/solid-client-authn-browser/dist/Session";
-import {
+/*
+ * Copyright 2021 Inrupt Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+ * Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+import "text-encoding-polyfill";
+import "react-native-get-random-values";
+
+export { Session, ISessionOptions } from "./Session";
+
+export { getClientAuthenticationWithDependencies } from "./dependencies";
+
+export * from "./defaultSession";
+
+// Re-export of types defined in the core module and produced/consumed by our API
+
+export {
   ILoginInputOptions,
   ISessionInfo,
+  IStorage,
+  NotImplementedError,
+  ConfigurationError,
+  InMemoryStorage,
 } from "@inrupt/solid-client-authn-core";
-
-// export const handleIncomingRedirect = importHandleIncomingRedirect;
-// export const login = importLogin;
-// export const fetch = importFetch;
-// export const getDefaultSession = importGetDefaultSession;
-
-export const handleIncomingRedirect = async (
-  inputOptions?: string | IHandleIncomingRedirectOptions | undefined
-): Promise<ISessionInfo | undefined> => {
-  console.log("Handle incoming redirect", inputOptions);
-  return undefined;
-};
-
-export const login = async (options: ILoginInputOptions): Promise<void> => {
-  console.log("Login");
-  // return loginImport(options);
-};
-
-export const fetch = async (
-  url: RequestInfo,
-  init?: RequestInit | undefined
-): Promise<Response> => {
-  console.log("fetch", url, init);
-  throw new Error("not implemented");
-};
-
-export const getDefaultSession = (): Session => {
-  console.log("getDefaultSession");
-  return {
-    info: {
-      isLoggedIn: true,
-      webId: "https://cooddude.com",
-    },
-  } as Session;
-};
