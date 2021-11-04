@@ -23,6 +23,11 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { Session } from "./Session";
+import { IHandleIncomingRedirectOptions } from "@inrupt/solid-client-authn-browser/dist/Session";
+import {
+  ILoginInputOptions,
+  ISessionInfo,
+} from "@inrupt/solid-client-authn-core";
 
 let defaultSession: Session;
 
@@ -51,9 +56,12 @@ export function getDefaultSession(): Session {
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch}
  * @since 1.3.0
  */
-export const fetch: Session["fetch"] = (...args) => {
+export const fetch = (
+  url: RequestInfo,
+  init?: RequestInit
+): Promise<Response> => {
   const session = getDefaultSession();
-  return session.fetch(...args);
+  return session.fetch(url, init);
 };
 
 /**
@@ -63,9 +71,9 @@ export const fetch: Session["fetch"] = (...args) => {
  * @returns This method should redirect the user away from the app: it does not return anything. The login process is completed by [[handleIncomingRedirect]].
  * @since 1.3.0
  */
-export const login: Session["login"] = (...args) => {
+export const login = (options: ILoginInputOptions): Promise<void> => {
   const session = getDefaultSession();
-  return session.login(...args);
+  return session.login(options);
 };
 
 /**
@@ -74,9 +82,9 @@ export const login: Session["login"] = (...args) => {
  *
  * @since 1.3.0
  */
-export const logout: Session["logout"] = (...args) => {
+export const logout = (): Promise<void> => {
   const session = getDefaultSession();
-  return session.logout(...args);
+  return session.logout();
 };
 
 /**
@@ -85,11 +93,11 @@ export const logout: Session["logout"] = (...args) => {
  * @param url The URL of the page handling the redirect, including the query parameters — these contain the information to process the login.
  * @since 1.3.0
  */
-export const handleIncomingRedirect: Session["handleIncomingRedirect"] = (
-  ...args
-) => {
+export const handleIncomingRedirect = (
+  inputOptions: string | IHandleIncomingRedirectOptions = {}
+): Promise<ISessionInfo | undefined> => {
   const session = getDefaultSession();
-  return session.handleIncomingRedirect(...args);
+  return session.handleIncomingRedirect(inputOptions);
 };
 
 /**
@@ -100,9 +108,9 @@ export const handleIncomingRedirect: Session["handleIncomingRedirect"] = (
  *
  * @param callback The function called when a user completes login.
  */
-export const onLogin: Session["onLogin"] = (...args) => {
+export const onLogin = (callback: () => unknown): void => {
   const session = getDefaultSession();
-  return session.onLogin(...args);
+  return session.onLogin(callback);
 };
 
 /**
@@ -111,9 +119,9 @@ export const onLogin: Session["onLogin"] = (...args) => {
  * @param callback The function called when a user completes logout.
  * @since 1.3.0
  */
-export const onLogout: Session["onLogout"] = (...args) => {
+export const onLogout = (callback: () => unknown): void => {
   const session = getDefaultSession();
-  return session.onLogout(...args);
+  return session.onLogout(callback);
 };
 
 /**
@@ -122,7 +130,9 @@ export const onLogout: Session["onLogout"] = (...args) => {
  * @param callback The function called when a session is restored.
  * @since 1.3.0
  */
-export const onSessionRestore: Session["onSessionRestore"] = (...args) => {
+export const onSessionRestore = (
+  callback: (currentUrl: string) => unknown
+): void => {
   const session = getDefaultSession();
-  return session.onSessionRestore(...args);
+  return session.onSessionRestore(callback);
 };

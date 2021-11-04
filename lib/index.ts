@@ -22,6 +22,9 @@
 import "text-encoding-polyfill";
 import "react-native-get-random-values";
 
+// Typsescript doesn't play well with react-native's import scheme
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 export { Session, ISessionOptions } from "./Session";
 
 export { getClientAuthenticationWithDependencies } from "./dependencies";
