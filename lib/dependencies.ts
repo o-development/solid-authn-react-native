@@ -28,7 +28,7 @@
  * Top Level core document. Responsible for setting up the dependency graph
  */
 import { IStorage, InMemoryStorage } from "@inrupt/solid-client-authn-core";
-import StorageUtilityBrowser from "@inrupt/solid-client-authn-browser/dist/storage/StorageUtility";
+import StorageUtility from "@inrupt/solid-client-authn-browser/dist/storage/StorageUtility";
 import ClientAuthentication from "@inrupt/solid-client-authn-browser/dist/ClientAuthentication";
 import OidcLoginHandler from "@inrupt/solid-client-authn-browser/dist/login/oidc/OidcLoginHandler";
 import AuthorizationCodeWithPkceOidcHandler from "@inrupt/solid-client-authn-browser/dist/login/oidc/oidcHandlers/AuthorizationCodeWithPkceOidcHandler";
@@ -38,16 +38,15 @@ import GeneralLogoutHandler from "@inrupt/solid-client-authn-browser/dist/logout
 import { SessionInfoManager } from "@inrupt/solid-client-authn-browser/dist/sessionInfo/SessionInfoManager";
 import { AuthCodeRedirectHandler } from "@inrupt/solid-client-authn-browser/dist/login/oidc/redirectHandler/AuthCodeRedirectHandler";
 import AggregateRedirectHandler from "@inrupt/solid-client-authn-browser/dist/login/oidc/redirectHandler/AggregateRedirectHandler";
-import BrowserStorage from "@inrupt/solid-client-authn-browser/dist/storage/BrowserStorage";
-import Redirector from "@inrupt/solid-client-authn-browser/dist/login/oidc/Redirector";
 import ClientRegistrar from "@inrupt/solid-client-authn-browser/dist/login/oidc/ClientRegistrar";
 import { ErrorOidcHandler } from "@inrupt/solid-client-authn-browser/dist/login/oidc/redirectHandler/ErrorOidcHandler";
 import TokenRefresher from "@inrupt/solid-client-authn-browser/dist/login/oidc/refresh/TokenRefresher";
+import ReactNativeStorage from "./storage/ReactNativeStorage";
+import ReactNativeRedirector from "./util/ReactNativeRedirector";
 
 /**
  *
  * @param dependencies
- * @deprecated This function will be removed from the external API in an upcoming release.
  */
 export function getClientAuthenticationWithDependencies(dependencies: {
   secureStorage?: IStorage;
@@ -55,12 +54,10 @@ export function getClientAuthenticationWithDependencies(dependencies: {
 }): ClientAuthentication {
   const inMemoryStorage = new InMemoryStorage();
   const secureStorage = dependencies.secureStorage || inMemoryStorage;
-  const insecureStorage = dependencies.insecureStorage || new BrowserStorage();
+  const insecureStorage =
+    dependencies.insecureStorage || new ReactNativeStorage();
 
-  const storageUtility = new StorageUtilityBrowser(
-    secureStorage,
-    insecureStorage
-  );
+  const storageUtility = new StorageUtility(secureStorage, insecureStorage);
 
   const issuerConfigFetcher = new IssuerConfigFetcher(storageUtility);
   const clientRegistrar = new ClientRegistrar(storageUtility);
@@ -76,7 +73,10 @@ export function getClientAuthenticationWithDependencies(dependencies: {
   // make new handler for redirect and login
   const loginHandler = new OidcLoginHandler(
     storageUtility,
-    new AuthorizationCodeWithPkceOidcHandler(storageUtility, new Redirector()),
+    new AuthorizationCodeWithPkceOidcHandler(
+      storageUtility,
+      new ReactNativeRedirector()
+    ),
     issuerConfigFetcher,
     clientRegistrar
   );

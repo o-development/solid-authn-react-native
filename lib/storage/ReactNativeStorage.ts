@@ -19,32 +19,23 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import "text-encoding-polyfill";
-import "localstorage-polyfill";
-import "react-native-get-random-values";
-import "react-native-url-polyfill/auto";
+import { IStorage } from "@inrupt/solid-client-authn-core";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// import "node-libs-react-native/globals";
-// import { polyfillGlobal } from "react-native/Libraries/Utilities/PolyfillFunctions";
+export default class ReactNativeStorage implements IStorage {
+  get storage() {
+    return AsyncStorage;
+  }
 
-// polyfillGlobal("URLSearchParams", () => require("whatwg-url").URLSearchParams);
+  async get(key: string): Promise<string | undefined> {
+    return (await this.storage.getItem(key)) || undefined;
+  }
 
-// Typsescript doesn't play well with react-native's import scheme
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-export { Session, ISessionOptions } from "./Session";
+  async set(key: string, value: string): Promise<void> {
+    await this.storage.setItem(key, value);
+  }
 
-export { getClientAuthenticationWithDependencies } from "./dependencies";
-
-export * from "./defaultSession";
-
-// Re-export of types defined in the core module and produced/consumed by our API
-
-export {
-  ILoginInputOptions,
-  ISessionInfo,
-  IStorage,
-  NotImplementedError,
-  ConfigurationError,
-  InMemoryStorage,
-} from "@inrupt/solid-client-authn-core";
+  async delete(key: string): Promise<void> {
+    await this.storage.removeItem(key);
+  }
+}

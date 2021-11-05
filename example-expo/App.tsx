@@ -6,6 +6,7 @@ import {
   login,
   getDefaultSession,
 } from "solid-authn-react-native";
+import { makeUrl } from "expo-linking";
 
 const App: FunctionComponent = () => {
   const [webId, setWebId] = useState<string | undefined>();
@@ -20,7 +21,7 @@ const App: FunctionComponent = () => {
   const logIn = useCallback((issuer: string) => {
     login({
       oidcIssuer: issuer,
-      redirectUrl: "https://192.168.0.105:19006",
+      redirectUrl: makeUrl("auth-callback"),
       clientName: "My application",
     });
   }, []);

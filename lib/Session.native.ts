@@ -6,6 +6,8 @@ import {
   IStorage,
 } from "@inrupt/solid-client-authn-core";
 import ClientAuthentication from "@inrupt/solid-client-authn-browser/dist/ClientAuthentication";
+import { v4 } from "uuid";
+import { getClientAuthenticationWithDependencies } from "./dependencies";
 
 export interface ISessionOptions {
   /**
@@ -69,13 +71,36 @@ export interface IHandleIncomingRedirectOptions {
  * A {@link Session} object represents a user's session on an application. The session holds state, as it stores information enabling acces to private resources after login for instance.
  */
 export class Session extends EventEmitter {
-  public info = {
-    isLoggedIn: true,
-    webId: "https://cool.com",
-  };
+  public readonly info: ISessionInfo;
+  private clientAuthentication: ClientAuthentication;
 
-  constructor() {
+  constructor(
+    sessionOptions: Partial<ISessionOptions> = {},
+    sessionId?: string
+  ) {
     super();
+
+    if (sessionOptions.clientAuthentication) {
+      this.clientAuthentication = sessionOptions.clientAuthentication;
+    } else {
+      this.clientAuthentication = getClientAuthenticationWithDependencies({
+        secureStorage: sessionOptions.secureStorage,
+        insecureStorage: sessionOptions.insecureStorage,
+      });
+    }
+
+    if (sessionOptions.sessionInfo) {
+      this.info = {
+        sessionId: sessionOptions.sessionInfo.sessionId,
+        isLoggedIn: false,
+        webId: sessionOptions.sessionInfo.webId,
+      };
+    } else {
+      this.info = {
+        sessionId: sessionId ?? v4(),
+        isLoggedIn: false,
+      };
+    }
   }
 
   /**
@@ -87,7 +112,19 @@ export class Session extends EventEmitter {
   // Define these functions as properties so that they don't get accidentally re-bound.
   // Isn't Javascript fun?
   login = async (options: ILoginInputOptions): Promise<void> => {
-    console.log("Login");
+    console.log("Login 4");
+    try {
+      await this.clientAuthentication.login(
+        {
+          sessionId: this.info.sessionId,
+          ...options,
+          tokenType: options.tokenType ?? "DPoP",
+        },
+        this
+      );
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   /**
