@@ -42,7 +42,8 @@ import ClientRegistrar from "@inrupt/solid-client-authn-browser/dist/login/oidc/
 import { ErrorOidcHandler } from "@inrupt/solid-client-authn-browser/dist/login/oidc/redirectHandler/ErrorOidcHandler";
 import TokenRefresher from "@inrupt/solid-client-authn-browser/dist/login/oidc/refresh/TokenRefresher";
 import ReactNativeStorage from "./storage/ReactNativeStorage";
-import ReactNativeRedirector from "./util/ReactNativeRedirector";
+import ReactNativeRedirector from "./login/ReactNativeRedirector";
+import ReactNativeHandleRedirect from "./login/ReactNativeHandleRedirect";
 
 /**
  *
@@ -70,17 +71,6 @@ export function getClientAuthenticationWithDependencies(dependencies: {
     clientRegistrar
   );
 
-  // make new handler for redirect and login
-  const loginHandler = new OidcLoginHandler(
-    storageUtility,
-    new AuthorizationCodeWithPkceOidcHandler(
-      storageUtility,
-      new ReactNativeRedirector()
-    ),
-    issuerConfigFetcher,
-    clientRegistrar
-  );
-
   const redirectHandler = new AggregateRedirectHandler([
     new ErrorOidcHandler(),
     new AuthCodeRedirectHandler(
@@ -94,6 +84,17 @@ export function getClientAuthenticationWithDependencies(dependencies: {
     // redirect IRI, so it must be registered last.
     new FallbackRedirectHandler(),
   ]);
+
+  // make new handler for redirect and login
+  const loginHandler = new OidcLoginHandler(
+    storageUtility,
+    new AuthorizationCodeWithPkceOidcHandler(
+      storageUtility,
+      new ReactNativeRedirector(new ReactNativeHandleRedirect(redirectHandler))
+    ),
+    issuerConfigFetcher,
+    clientRegistrar
+  );
 
   return new ClientAuthentication(
     loginHandler,

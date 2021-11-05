@@ -19,9 +19,11 @@ const App: FunctionComponent = () => {
   }, []);
 
   const logIn = useCallback((issuer: string) => {
+    const callbackUrl = makeUrl("auth-callback");
+    console.log(callbackUrl);
     login({
       oidcIssuer: issuer,
-      redirectUrl: makeUrl("auth-callback"),
+      redirectUrl: callbackUrl,
       clientName: "My application",
     });
   }, []);
