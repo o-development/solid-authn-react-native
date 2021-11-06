@@ -33,7 +33,6 @@ import {
   IRedirectHandler,
   IStorageUtility,
   LoginResult,
-  RedirectResult,
 } from "@inrupt/solid-client-authn-core";
 import { OidcClient } from "@inrupt/oidc-client-ext";
 import { openAuthSessionAsync } from "expo-web-browser";
@@ -134,7 +133,6 @@ export default class ReactNativeAuthorizationCodeWithPkceOidcHandler
     );
 
     if (oidcLoginOptions.eventEmitter) {
-      console.log("Event Emitter is present!!!!");
       oidcLoginOptions.eventEmitter.emit("sessionLoginComplete", redirectInfo);
     }
 

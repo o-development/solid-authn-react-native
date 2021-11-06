@@ -1,10 +1,12 @@
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { Button, View, Text } from "react-native";
+import { Button, View, Text, ScrollView } from "react-native";
 import useAsyncEffect from "use-async-effect";
 import {
   handleIncomingRedirect,
   login,
   getDefaultSession,
+  fetch,
+  logout,
 } from "solid-authn-react-native";
 import { makeUrl } from "expo-linking";
 
@@ -43,25 +45,43 @@ const App: FunctionComponent = () => {
     console.log(result);
   });
 
+  const onFetch = useCallback(async () => {
+    const result = await fetch("https://jackson.solidweb.org/private");
+    console.log(result.status);
+    console.log(await result.text())
+  }, []);
+
+  const onLogout = useCallback(async () => {
+    logout();
+  }, []);
+
   return (
     <View
       style={{ flex: 1, alignItems: "center", justifyContent: "space-around" }}
     >
-      <Text>
-        {webId ? `You are logged in as ${webId}` : "You are not logged in"}
-      </Text>
-      <Button
-        title="Log in with SolidWeb.org (NSS)"
-        onPress={() => logIn("https://solidweb.org")}
-      />
-      <Button
-        title="Log in with SolidWeb.me (CSS)"
-        onPress={() => logIn("https://solidweb.me")}
-      />
-      <Button
-        title="Log in with pod.Inrupt.com (ESS)"
-        onPress={() => logIn("https://broker.pod.inrupt.com")}
-      />
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <Text>
+          {webId ? `You are logged in as ${webId}` : "You are not logged in"}
+        </Text>
+      </View>
+      <View style={{ flex: 1 }}>
+        <Button title="Fetch" onPress={onFetch} />
+        <Button title="Log Out" onPress={onLogout} />
+      </View>
+      <View style={{ flex: 1, justifyContent: "space-between" }}>
+        <Button
+          title="Log in with SolidWeb.org (NSS)"
+          onPress={() => logIn("https://solidweb.org")}
+        />
+        <Button
+          title="Log in with SolidWeb.me (CSS)"
+          onPress={() => logIn("https://solidweb.me")}
+        />
+        <Button
+          title="Log in with pod.Inrupt.com (ESS)"
+          onPress={() => logIn("https://broker.pod.inrupt.com")}
+        />
+      </View>
     </View>
   );
 };

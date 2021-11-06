@@ -145,15 +145,16 @@ export class Session extends EventEmitter {
    * @param init Optional parameters customizing the request, by specifying an HTTP method, headers, a body, etc. Follows the [WHATWG Fetch Standard](https://fetch.spec.whatwg.org/).
    */
   fetch = async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
-    console.log("Fetch");
-    throw new Error("Not Implemented");
+    return this.clientAuthentication.fetch(url, init);
   };
 
   /**
    * Logs the user out of the application. This does not log the user out of their Solid identity provider, and should not redirect the user away.
    */
   logout = async (): Promise<void> => {
-    console.log("Logout");
+    await this.clientAuthentication.logout(this.info.sessionId);
+    this.info.isLoggedIn = false;
+    this.emit("logout");
   };
 
   /**
