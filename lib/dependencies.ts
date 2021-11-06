@@ -31,7 +31,6 @@ import { IStorage, InMemoryStorage } from "@inrupt/solid-client-authn-core";
 import StorageUtility from "@inrupt/solid-client-authn-browser/dist/storage/StorageUtility";
 import ClientAuthentication from "@inrupt/solid-client-authn-browser/dist/ClientAuthentication";
 import OidcLoginHandler from "@inrupt/solid-client-authn-browser/dist/login/oidc/OidcLoginHandler";
-import AuthorizationCodeWithPkceOidcHandler from "@inrupt/solid-client-authn-browser/dist/login/oidc/oidcHandlers/AuthorizationCodeWithPkceOidcHandler";
 import IssuerConfigFetcher from "@inrupt/solid-client-authn-browser/dist/login/oidc/IssuerConfigFetcher";
 import { FallbackRedirectHandler } from "@inrupt/solid-client-authn-browser/dist/login/oidc/redirectHandler/FallbackRedirectHandler";
 import GeneralLogoutHandler from "@inrupt/solid-client-authn-browser/dist/logout/GeneralLogoutHandler";
@@ -42,8 +41,7 @@ import ClientRegistrar from "@inrupt/solid-client-authn-browser/dist/login/oidc/
 import { ErrorOidcHandler } from "@inrupt/solid-client-authn-browser/dist/login/oidc/redirectHandler/ErrorOidcHandler";
 import TokenRefresher from "@inrupt/solid-client-authn-browser/dist/login/oidc/refresh/TokenRefresher";
 import ReactNativeStorage from "./storage/ReactNativeStorage";
-import ReactNativeRedirector from "./login/ReactNativeRedirector";
-import ReactNativeHandleRedirect from "./login/ReactNativeHandleRedirect";
+import ReactNativeAuthorizationCodeWithPkceOidcHandler from "./login/ReactNativeAuthorizationCodeWithPkceOidcHandler";
 
 /**
  *
@@ -88,9 +86,9 @@ export function getClientAuthenticationWithDependencies(dependencies: {
   // make new handler for redirect and login
   const loginHandler = new OidcLoginHandler(
     storageUtility,
-    new AuthorizationCodeWithPkceOidcHandler(
+    new ReactNativeAuthorizationCodeWithPkceOidcHandler(
       storageUtility,
-      new ReactNativeRedirector(new ReactNativeHandleRedirect(redirectHandler))
+      redirectHandler
     ),
     issuerConfigFetcher,
     clientRegistrar

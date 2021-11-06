@@ -4,6 +4,7 @@ import {
   ILoginInputOptions,
   ISessionInfo,
   IStorage,
+  RedirectResult,
 } from "@inrupt/solid-client-authn-core";
 import ClientAuthentication from "@inrupt/solid-client-authn-browser/dist/ClientAuthentication";
 import { v4 } from "uuid";
@@ -101,6 +102,16 @@ export class Session extends EventEmitter {
         isLoggedIn: false,
       };
     }
+
+    // Allow session to be set internally
+    this.on("sessionLoginComplete", (loginResult: RedirectResult) => {
+      this.info.isLoggedIn = loginResult.isLoggedIn;
+      this.info.clientAppId = loginResult.clientAppId;
+      this.info.expirationDate = loginResult.expirationDate;
+      this.info.sessionId = loginResult.sessionId;
+      this.info.webId = loginResult.webId;
+      this.emit("login");
+    });
   }
 
   /**
@@ -152,10 +163,11 @@ export class Session extends EventEmitter {
    * @param options See {@see IHandleIncomingRedirectOptions}.
    */
   handleIncomingRedirect = async (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     inputOptions: string | IHandleIncomingRedirectOptions = {}
   ): Promise<ISessionInfo | undefined> => {
-    console.log("Handle Incoming Redirect");
-    return undefined;
+    // No need to handling redirect in react native.
+    return this.info;
   };
 
   /**

@@ -18,15 +18,30 @@ const App: FunctionComponent = () => {
     }
   }, []);
 
-  const logIn = useCallback((issuer: string) => {
+  const logIn = useCallback(async (issuer: string) => {
     const callbackUrl = makeUrl("auth-callback");
     console.log(callbackUrl);
-    login({
+    await login({
       oidcIssuer: issuer,
       redirectUrl: callbackUrl,
       clientName: "My application",
     });
+    if (getDefaultSession().info.isLoggedIn) {
+      setWebId(getDefaultSession().info.webId);
+    }
   }, []);
+
+  useAsyncEffect(async () => {
+    const result = await crypto.subtle.generateKey(
+      {
+        name: "ECDSA",
+        namedCurve: "P-256",
+      },
+      false,
+      ["sign", "verify"]
+    );
+    console.log(result);
+  });
 
   return (
     <View
