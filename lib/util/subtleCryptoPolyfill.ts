@@ -26,7 +26,17 @@ if (!crypto?.subtle) {
       return result;
     },
   };
+  // Need to rebind CryptoKey to Object since "isomorphic-webcrypto" doesn't use
+  // "CryptoKey" it uses a regular Object
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   global.CryptoKey = Object;
+
+  // console.log(global.fetch);
+  // const oldFetch = global.fetch;
+
+  // global.fetch = (info: RequestInfo, init?: RequestInit): Promise<Response> => {
+  //   console.log(info, init);
+  //   return oldFetch(info, init);
+  // };
 }

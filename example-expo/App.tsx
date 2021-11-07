@@ -24,6 +24,7 @@ const App: FunctionComponent = () => {
   const [fetchResult, setFetchResult] = useState<
     { status: number; body: string } | undefined
   >(undefined);
+  const [customIssuer, setCustomIssuer] = useState("https://inrupt.net");
 
   // Listeners
   useEffect(() => {
@@ -73,7 +74,6 @@ const App: FunctionComponent = () => {
 
   // Fetch
   const onFetchPress = useCallback(async () => {
-    console.log(fetchUri);
     try {
       const result = await fetch(fetchUri);
       if (result.status === 200) {
@@ -132,6 +132,21 @@ const App: FunctionComponent = () => {
             <Button
               title="Log in with pod.Inrupt.com (ESS)"
               onPress={() => onLoginPress("https://broker.pod.inrupt.com")}
+            />
+            <TextInput
+              style={{
+                borderColor: "black",
+                borderWidth: 1,
+                marginVertical: 10,
+                padding: 5,
+              }}
+              placeholder="Custom Issuer (https://inrupt.net)"
+              value={customIssuer}
+              onChangeText={(text) => setCustomIssuer(text)}
+            />
+            <Button
+              title={`Log in with ${customIssuer}`}
+              onPress={() => onLoginPress(customIssuer)}
             />
           </>
         )}

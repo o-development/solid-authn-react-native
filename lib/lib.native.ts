@@ -26,19 +26,6 @@ import "isomorphic-webcrypto";
 import "react-native-get-random-values";
 import "./util/subtleCryptoPolyfill";
 
-console.log("NATIVE IMPORT");
-
-// import "node-libs-react-native/globals";
-// import { polyfillGlobal } from "react-native/Libraries/Utilities/PolyfillFunctions";
-
-// polyfillGlobal("URLSearchParams", () => require("whatwg-url").URLSearchParams);
-
-console.log("After polyfill");
-console.log(crypto);
-
-// Typsescript doesn't play well with react-native's import scheme
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 export { Session, ISessionOptions } from "./Session";
 
 export { getClientAuthenticationWithDependencies } from "./dependencies";
