@@ -16,7 +16,7 @@ import {
   onLogout,
   onSessionRestore,
 } from "solid-authn-react-native";
-import { makeUrl } from "expo-linking";
+import { createURL } from "expo-linking";
 
 const App: FunctionComponent = () => {
   const [webId, setWebId] = useState<string | undefined>();
@@ -61,7 +61,7 @@ const App: FunctionComponent = () => {
   // Login
   const onLoginPress = useCallback(
     async (issuer: string) => {
-      const callbackUrl = makeUrl("auth-callback");
+      const callbackUrl = createURL("auth-callback");
       await login({
         oidcIssuer: issuer,
         redirectUrl: callbackUrl,
