@@ -31,12 +31,4 @@ if (!crypto?.subtle) {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   global.CryptoKey = Object;
-
-  // console.log(global.fetch);
-  // const oldFetch = global.fetch;
-
-  // global.fetch = (info: RequestInfo, init?: RequestInit): Promise<Response> => {
-  //   console.log(info, init);
-  //   return oldFetch(info, init);
-  // };
 }
