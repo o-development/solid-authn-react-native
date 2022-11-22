@@ -1,23 +1,18 @@
-/**
- * The following file is not needed for standard use of solid-authn-react-native
- */
+// Learn more https://docs.expo.io/guides/customizing-metro
+const { getDefaultConfig } = require('expo/metro-config');
+const path = require('path');
 
-const path = require("path");
-const extraNodeModules = {
+const config = getDefaultConfig(__dirname);
+
+config.watchFolders = [path.resolve(__dirname + "/../")];
+config.resolver.extraNodeModules = {
   "solid-authn-react-native": path.resolve(__dirname + "/../"),
 };
-const watchFolders = [path.resolve(__dirname + "/../")];
-module.exports = {
-  transformer: {
-    getTransformOptions: async () => ({
-      transform: {
-        experimentalImportSupport: false,
-        inlineRequires: false,
-      },
-    }),
+config.transformer.getTransformOptions = async () => ({
+  transform: {
+    experimentalImportSupport: false,
+    inlineRequires: true,
   },
-  resolver: {
-    extraNodeModules,
-  },
-  watchFolders,
-};
+});
+
+module.exports = config;

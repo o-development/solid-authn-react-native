@@ -4,6 +4,7 @@
     "slug": "example-expo",
     "scheme": "example-expo",
     "version": "1.0.0",
+    "jsEngine": "hermes",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -25,7 +26,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.otherjackson.exampleexpo"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -4,7 +4,7 @@ import {
   ILoginInputOptions,
   ISessionInfo,
   IStorage,
-  RedirectResult,
+  IncomingRedirectResult,
 } from "@inrupt/solid-client-authn-core";
 import ClientAuthentication from "@inrupt/solid-client-authn-browser/dist/ClientAuthentication";
 import { v4 } from "uuid";
@@ -104,7 +104,7 @@ export class Session extends EventEmitter {
     }
 
     // Allow session to be set internally
-    this.on("sessionLoginComplete", (loginResult: RedirectResult) => {
+    this.on("sessionLoginComplete", (loginResult: IncomingRedirectResult) => {
       this.info.isLoggedIn = loginResult.isLoggedIn;
       this.info.clientAppId = loginResult.clientAppId;
       this.info.expirationDate = loginResult.expirationDate;
