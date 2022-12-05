@@ -2,10 +2,12 @@
   "expo": {
     "name": "example-expo",
     "slug": "example-expo",
-    "scheme": "exampleexpo",
+    "scheme": "example-expo",
     "version": "1.0.0",
+    "jsEngine": "hermes",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

@@ -30,7 +30,7 @@
 import {
   IOidcHandler,
   IOidcOptions,
-  IRedirectHandler,
+  IIncomingRedirectHandler,
   IStorageUtility,
   LoginResult,
 } from "@inrupt/solid-client-authn-core";
@@ -47,7 +47,7 @@ export default class ReactNativeAuthorizationCodeWithPkceOidcHandler
 {
   constructor(
     private storageUtility: IStorageUtility,
-    private redirectHandler: IRedirectHandler
+    private redirectHandler: IIncomingRedirectHandler
   ) {}
 
   async canHandle(oidcLoginOptions: IOidcOptions): Promise<boolean> {

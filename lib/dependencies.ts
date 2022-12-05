@@ -32,13 +32,13 @@ import StorageUtility from "@inrupt/solid-client-authn-browser/dist/storage/Stor
 import ClientAuthentication from "@inrupt/solid-client-authn-browser/dist/ClientAuthentication";
 import OidcLoginHandler from "@inrupt/solid-client-authn-browser/dist/login/oidc/OidcLoginHandler";
 import IssuerConfigFetcher from "@inrupt/solid-client-authn-browser/dist/login/oidc/IssuerConfigFetcher";
-import { FallbackRedirectHandler } from "@inrupt/solid-client-authn-browser/dist/login/oidc/redirectHandler/FallbackRedirectHandler";
+import { FallbackRedirectHandler } from "@inrupt/solid-client-authn-browser/dist/login/oidc/incomingRedirectHandler/FallbackRedirectHandler";
 import GeneralLogoutHandler from "@inrupt/solid-client-authn-browser/dist/logout/GeneralLogoutHandler";
 import { SessionInfoManager } from "@inrupt/solid-client-authn-browser/dist/sessionInfo/SessionInfoManager";
-import { AuthCodeRedirectHandler } from "@inrupt/solid-client-authn-browser/dist/login/oidc/redirectHandler/AuthCodeRedirectHandler";
-import AggregateRedirectHandler from "@inrupt/solid-client-authn-browser/dist/login/oidc/redirectHandler/AggregateRedirectHandler";
+import { AuthCodeRedirectHandler } from "@inrupt/solid-client-authn-browser/dist/login/oidc/incomingRedirectHandler/AuthCodeRedirectHandler";
+import AggregateRedirectHandler from "@inrupt/solid-client-authn-browser/dist/login/oidc/AggregateRedirectHandler";
 import ClientRegistrar from "@inrupt/solid-client-authn-browser/dist/login/oidc/ClientRegistrar";
-import { ErrorOidcHandler } from "@inrupt/solid-client-authn-browser/dist/login/oidc/redirectHandler/ErrorOidcHandler";
+import { ErrorOidcHandler } from "@inrupt/solid-client-authn-browser/dist/login/oidc/incomingRedirectHandler/ErrorOidcHandler";
 import TokenRefresher from "@inrupt/solid-client-authn-browser/dist/login/oidc/refresh/TokenRefresher";
 import ReactNativeStorage from "./storage/ReactNativeStorage";
 import ReactNativeAuthorizationCodeWithPkceOidcHandler from "./login/ReactNativeAuthorizationCodeWithPkceOidcHandler";
