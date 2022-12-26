@@ -19,9 +19,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
 import { IStorage } from "@inrupt/solid-client-authn-core";
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 
 function encodeKey(key: string): string {
   return key.replace(":", "---");

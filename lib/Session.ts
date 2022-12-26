@@ -176,7 +176,10 @@ export class Session extends EventEmitter {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     inputOptions: string | IHandleIncomingRedirectOptions = {}
   ): Promise<ISessionInfo | undefined> => {
-    if (typeof inputOptions === "string" || !inputOptions.restorePreviousSession) {
+    if (
+      typeof inputOptions === "string" ||
+      !inputOptions.restorePreviousSession
+    ) {
       return this.info;
     }
     await this.clientAuthentication.restoreSession(this.info.sessionId, this);

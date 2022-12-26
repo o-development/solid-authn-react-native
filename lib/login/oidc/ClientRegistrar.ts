@@ -24,7 +24,7 @@
  * @packageDocumentation
  */
 
- import {
+import {
   IStorageUtility,
   IClientRegistrar,
   IIssuerConfig,

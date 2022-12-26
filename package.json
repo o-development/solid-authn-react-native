@@ -1,13 +1,14 @@
 {
   "name": "solid-authn-react-native",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Solid-OIDC auth for React-Native",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
     "test": "jest --coverage",
-    "docs": "typedoc"
+    "docs": "typedoc",
+    "prepublishOnly": "npm run test && npm run build"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/base-64": "^1.0.0",
     "@types/jest": "^29.2.4",
     "@types/react-native": "^0.70.7",
     "@types/whatwg-url": "^11.0.0",

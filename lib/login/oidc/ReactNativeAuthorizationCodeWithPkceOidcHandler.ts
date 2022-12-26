@@ -35,7 +35,7 @@ import {
   LoginResult,
 } from "@inrupt/solid-client-authn-core";
 import { OidcClient } from "@inrupt/oidc-client-ext";
-import { openAuthSessionAsync, dismissBrowser } from "expo-web-browser";
+import { openAuthSessionAsync } from "expo-web-browser";
 
 /**
  * @hidden

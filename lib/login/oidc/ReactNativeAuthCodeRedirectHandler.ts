@@ -45,17 +45,16 @@ import {
   loadOidcContextFromStorage,
   RefreshOptions,
 } from "@inrupt/solid-client-authn-core";
-import {
-  getBearerToken,
-  CodeExchangeResult,
-} from "@inrupt/oidc-client-ext";
+import { getBearerToken, CodeExchangeResult } from "@inrupt/oidc-client-ext";
 import { getDpopToken } from "./util/tokenExchange";
 import { EventEmitter } from "events";
 
 /**
  * @hidden
  */
-export class ReactNativeAuthCodeRedirectHandler implements IIncomingRedirectHandler {
+export class ReactNativeAuthCodeRedirectHandler
+  implements IIncomingRedirectHandler
+{
   constructor(
     private storageUtility: IStorageUtility,
     private sessionInfoManager: ISessionInfoManager,
@@ -169,7 +168,7 @@ export class ReactNativeAuthCodeRedirectHandler implements IIncomingRedirectHand
       {
         webId: tokens.webId,
         isLoggedIn: "true",
-        refreshToken: refreshOptions.refreshToken,
+        refreshToken: refreshOptions?.refreshToken as string,
       },
       { secure: true }
     );

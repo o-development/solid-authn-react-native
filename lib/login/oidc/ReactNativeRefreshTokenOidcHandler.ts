@@ -223,9 +223,9 @@ export default class RefreshTokenOidcHandler implements IOidcHandler {
     await this.storageUtility.setForUser(
       oidcLoginOptions.sessionId,
       {
-        webId: accessInfo.webId,
+        webId: accessInfo.webId as string,
         isLoggedIn: "true",
-        refreshToken: accessInfo.refreshToken,
+        refreshToken: accessInfo.refreshToken as string,
       },
       { secure: true }
     );
