@@ -19,25 +19,23 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import "text-encoding-polyfill";
-import "localstorage-polyfill";
-import "react-native-url-polyfill/auto";
-import "react-native-get-random-values";
-import "./util/subtleCryptoPolyfill";
+import { IStorage } from "@inrupt/solid-client-authn-core";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export { Session, ISessionOptions } from "./Session";
+export default class InsecureStorageReactNative implements IStorage {
+  get storage() {
+    return AsyncStorage;
+  }
 
-export { getClientAuthenticationWithDependencies } from "./dependencies";
+  async get(key: string): Promise<string | undefined> {
+    return (await this.storage.getItem(key)) || undefined;
+  }
 
-export * from "./defaultSession";
+  async set(key: string, value: string): Promise<void> {
+    await this.storage.setItem(key, value);
+  }
 
-// Re-export of types defined in the core module and produced/consumed by our API
-
-export {
-  ILoginInputOptions,
-  ISessionInfo,
-  IStorage,
-  NotImplementedError,
-  ConfigurationError,
-  InMemoryStorage,
-} from "@inrupt/solid-client-authn-core";
+  async delete(key: string): Promise<void> {
+    await this.storage.removeItem(key);
+  }
+}
