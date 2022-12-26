@@ -30,7 +30,7 @@
 import {
   IOidcHandler,
   IOidcOptions,
-  IRedirectHandler,
+  IIncomingRedirectHandler,
   IStorageUtility,
   LoginResult,
 } from "@inrupt/solid-client-authn-core";
@@ -47,7 +47,7 @@ export default class ReactNativeAuthorizationCodeWithPkceOidcHandler
 {
   constructor(
     private storageUtility: IStorageUtility,
-    private redirectHandler: IRedirectHandler
+    private redirectHandler: IIncomingRedirectHandler
   ) {}
 
   async canHandle(oidcLoginOptions: IOidcOptions): Promise<boolean> {
@@ -69,7 +69,7 @@ export default class ReactNativeAuthorizationCodeWithPkceOidcHandler
       post_logout_redirect_uri: oidcLoginOptions.redirectUrl.toString(),
       response_type: "code",
       // The offline_access scope requests that a refresh token be returned.
-      scope: "openid offline_access",
+      scope: "openid offline_access webid",
       filterProtocolClaims: true,
       // The userinfo endpoint on NSS fails, so disable this for now
       // Note that in Solid, information should be retrieved from the
@@ -118,7 +118,7 @@ export default class ReactNativeAuthorizationCodeWithPkceOidcHandler
 
     const authRequestResult = await openAuthSessionAsync(
       redirectUrl,
-      "exp://192.168.0.105:19000/--/auth-callback"
+      oidcLoginOptions.redirectUrl.toString()
     );
 
     if (authRequestResult.type !== "success") {

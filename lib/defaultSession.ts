@@ -43,7 +43,7 @@ let defaultSession: Session;
  */
 export function getDefaultSession(): Session {
   if (typeof defaultSession === "undefined") {
-    defaultSession = new Session();
+    defaultSession = new Session({}, "default");
   }
   return defaultSession;
 }

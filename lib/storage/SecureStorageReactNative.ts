@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Inrupt Inc.
+ * Copyright 2022 Inrupt Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal in
@@ -20,22 +20,22 @@
  */
 
 import { IStorage } from "@inrupt/solid-client-authn-core";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
 
-export default class ReactNativeStorage implements IStorage {
-  get storage() {
-    return AsyncStorage;
-  }
+function encodeKey(key: string): string {
+  return key.replace(":", "---");
+}
 
+export default class SecureStorageReactNative implements IStorage {
   async get(key: string): Promise<string | undefined> {
-    return (await this.storage.getItem(key)) || undefined;
+    return (await SecureStore.getItemAsync(encodeKey(key))) || undefined;
   }
 
   async set(key: string, value: string): Promise<void> {
-    await this.storage.setItem(key, value);
+    await SecureStore.setItemAsync(encodeKey(key), value);
   }
 
   async delete(key: string): Promise<void> {
-    await this.storage.removeItem(key);
+    await SecureStore.deleteItemAsync(encodeKey(key));
   }
 }

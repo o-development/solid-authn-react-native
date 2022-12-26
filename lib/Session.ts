@@ -4,11 +4,11 @@ import {
   ILoginInputOptions,
   ISessionInfo,
   IStorage,
-  RedirectResult,
+  IncomingRedirectResult,
 } from "@inrupt/solid-client-authn-core";
-import ClientAuthentication from "@inrupt/solid-client-authn-browser/dist/ClientAuthentication";
 import { v4 } from "uuid";
 import { getClientAuthenticationWithDependencies } from "./dependencies";
+import ClientAuthenticationReactNative from "./ClientAuthenticationReactNative";
 
 export interface ISessionOptions {
   /**
@@ -26,7 +26,7 @@ export interface ISessionOptions {
   /**
    * An instance of the library core. Typically obtained using `getClientAuthenticationWithDependencies`.
    */
-  clientAuthentication: ClientAuthentication;
+  clientAuthentication: ClientAuthenticationReactNative;
 }
 
 export interface IHandleIncomingRedirectOptions {
@@ -73,7 +73,7 @@ export interface IHandleIncomingRedirectOptions {
  */
 export class Session extends EventEmitter {
   public readonly info: ISessionInfo;
-  private clientAuthentication: ClientAuthentication;
+  private clientAuthentication: ClientAuthenticationReactNative;
 
   constructor(
     sessionOptions: Partial<ISessionOptions> = {},
@@ -104,13 +104,22 @@ export class Session extends EventEmitter {
     }
 
     // Allow session to be set internally
-    this.on("sessionLoginComplete", (loginResult: RedirectResult) => {
+    this.on("sessionLoginComplete", (loginResult: IncomingRedirectResult) => {
       this.info.isLoggedIn = loginResult.isLoggedIn;
       this.info.clientAppId = loginResult.clientAppId;
       this.info.expirationDate = loginResult.expirationDate;
       this.info.sessionId = loginResult.sessionId;
       this.info.webId = loginResult.webId;
       this.emit("login");
+    });
+
+    this.on("sessionRestoreComplete", (loginResult: IncomingRedirectResult) => {
+      this.info.isLoggedIn = loginResult.isLoggedIn;
+      this.info.clientAppId = loginResult.clientAppId;
+      this.info.expirationDate = loginResult.expirationDate;
+      this.info.sessionId = loginResult.sessionId;
+      this.info.webId = loginResult.webId;
+      this.emit("sessionRestore");
     });
   }
 
@@ -123,7 +132,6 @@ export class Session extends EventEmitter {
   // Define these functions as properties so that they don't get accidentally re-bound.
   // Isn't Javascript fun?
   login = async (options: ILoginInputOptions): Promise<void> => {
-    console.log("Login 4");
     try {
       await this.clientAuthentication.login(
         {
@@ -168,7 +176,13 @@ export class Session extends EventEmitter {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     inputOptions: string | IHandleIncomingRedirectOptions = {}
   ): Promise<ISessionInfo | undefined> => {
-    // No need to handling redirect in react native.
+    if (
+      typeof inputOptions === "string" ||
+      !inputOptions.restorePreviousSession
+    ) {
+      return this.info;
+    }
+    await this.clientAuthentication.restoreSession(this.info.sessionId, this);
     return this.info;
   };
 

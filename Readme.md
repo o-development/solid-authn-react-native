@@ -6,8 +6,7 @@ A library for Solid Authentication in React Native Expo:
  - Support for iOS, Android, and Web
  - Works with the following servers:
    - ✅ Node Solid Server
-   - ❎ Community Solid Server (CSS does not currently allow mobile URL schemes. I'll fix that in the future, but for now you can't use this library with CSS)
-   - 🆗 Enterprise Solid Server (ESS allows you to log in, but fetches return a 401. I'll have to look into that)
+   - ✅ Community Solid Server (If you are using the Expo Go app, you will not be able to log into CSS as CSS requires schemes with the reverse url format (see below). However, you will be able to log in in production.)
  - Same API for mobile and web.
  - Works with Expo (This has not been tested with ejected React Native)
 
@@ -17,20 +16,19 @@ A library for Solid Authentication in React Native Expo:
 npm i solid-authn-react-native
 ```
 
-Add a `scheme` to Expo's [app.json file](https://docs.expo.dev/versions/latest/config/app/#scheme). This will allow the Pod's Identity Provider to redirect back to your app.
+Add a `scheme` to Expo's [app.json file](https://docs.expo.dev/versions/latest/config/app/#scheme). This will allow the Pod's Identity Provider to redirect back to your app. Schemes MUST follow reverse url format for a domain name you own. For example, if you own `example.com`, your scheme could be `com.example`.
 
 ```json
 {
   "expo": {
     // ...
-    "scheme": "mycustomscheme",
+    "scheme": "com.example",
     // ...
   }
 }
 ```
 
 ## Usage
-For a full example, see the [example-expo project](./example-expo).
 
 This project follows the same interface as the `@inrupt/solid-client-authn-browser` library. See Inrupt's documentation [here](https://docs.inrupt.com/developer-tools/javascript/client-libraries/authentication/)
 
@@ -94,3 +92,7 @@ const App: FunctionComponent = () => {
 
 export default App;
 ```
+
+## Considerations for the Expo-Go App
+ - If you are using the Expo Go app, you will not be able to log into CSS as CSS requires schemes with the reverse url format. However, you will be able to log in in production as long as your scheme follows the reverse url format.
+ - When running in development, you may notice that web browser windows don't close after login. This only happens in development and will not happen in production.
