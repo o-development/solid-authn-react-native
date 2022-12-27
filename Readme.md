@@ -2,7 +2,9 @@
 
 ⚠️ WARNING: Use at your own risk. This library has not undergone a 3rd party security review. 
 
-A library for Solid Authentication in React Native Expo:
+A library for Solid Authentication in React Native Expo. If you want to build Solid mobile app using React Native Expo, you need to be able to authenticate with a Solid server. This library supports the [Solid OIDC specification](https://solidproject.org/TR/oidc) in React Native.
+
+It includes:
  - Support for iOS, Android, and Web
  - Works with the following servers:
    - ✅ Node Solid Server
@@ -30,7 +32,7 @@ Add a `scheme` to Expo's [app.json file](https://docs.expo.dev/versions/latest/c
 
 ## Usage
 
-This project follows the same interface as the `@inrupt/solid-client-authn-browser` library. See Inrupt's documentation [here](https://docs.inrupt.com/developer-tools/javascript/client-libraries/authentication/)
+This project follows the same interface as the `@inrupt/solid-client-authn-browser` library. See [Inrupt's documentation](https://docs.inrupt.com/developer-tools/javascript/client-libraries/authentication/).
 
 ```typescript
 import React, { FunctionComponent, useCallback, useState } from "react";
@@ -96,3 +98,9 @@ export default App;
 ## Considerations for the Expo-Go App
  - If you are using the Expo Go app, you will not be able to log into CSS as CSS requires schemes with the reverse url format. However, you will be able to log in in production as long as your scheme follows the reverse url format.
  - When running in development, you may notice that web browser windows don't close after login. This only happens in development and will not happen in production.
+
+## Sponsorship
+This project was made possible by a grant from NGI Zero Entrust via nlnet. Learn more on the [nlnet proejct page](https://nlnet.nl/project/SolidUsableApps/).
+
+[<img src="https://nlnet.nl/logo/banner.png" alt="nlnet foundation logo" width="300" />](https://nlnet.nl/)
+[<img src="https://nlnet.nl/image/logos/NGI0Entrust_tag.svg" alt="NGI Zero Entrust Logo" width="300" />](https://nlnet.nl/)

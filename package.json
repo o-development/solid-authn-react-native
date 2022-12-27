@@ -1,7 +1,7 @@
 {
   "name": "solid-authn-react-native",
-  "version": "2.0.1",
-  "description": "Solid-OIDC auth for React-Native",
+  "version": "2.0.2",
+  "description": "Solid-OIDC auth for React-Native Expo",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -22,6 +22,12 @@
   "homepage": "https://github.com/o-development/solid-authn-react-native#readme",
   "files": [
     "dist"
+  ],
+  "keywords": [
+    "solid",
+    "authentication",
+    "react-native",
+    "expo"
   ],
   "dependencies": {
     "@inrupt/solid-client-authn-browser": "^1.12.3",
