@@ -100,7 +100,7 @@ export default App;
  - When running in development, you may notice that web browser windows don't close after login. This only happens in development and will not happen in production.
 
 ## Sponsorship
-This project was made possible by a grant from NGI Zero Entrust via nlnet. Learn more on the [nlnet proejct page](https://nlnet.nl/project/SolidUsableApps/).
+This project was made possible by a grant from NGI Zero Entrust via nlnet. Learn more on the [NLnet project page](https://nlnet.nl/project/SolidUsableApps/).
 
 [<img src="https://nlnet.nl/logo/banner.png" alt="nlnet foundation logo" width="300" />](https://nlnet.nl/)
 [<img src="https://nlnet.nl/image/logos/NGI0Entrust_tag.svg" alt="NGI Zero Entrust Logo" width="300" />](https://nlnet.nl/)
